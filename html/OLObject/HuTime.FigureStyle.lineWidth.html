@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.FigureStyle.lineWidth</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../index.html">HuTime</a>.<a href="HuTime.FigureStyle.html">FigureStyle</a>.lineWidth</h1>
+    </div>
+    <div id="testArea">
+      <canvas id="canvas" height="400" width="700"></canvas>
+    </div>
+    <div id="description">
+      <h3>図形の境界の幅（px）</h3>
+      <p>undefined, 0</p>
+      <p>1, 3</p>
+      <p>10</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>境界が指定した幅で描画される。</li>
+        <li>undefinedは1と同じ。</li>
+      </ul>
+    </div>
+    <div id="footer">
+      created on 2021-01-05, updated on 2021-01-05
+    </div>
+  </div>
+  <script type="text/javascript">
+    function apply (lineWidth, x, y) {
+      let style = new HuTime.FigureStyle();
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext("2d");
+      style.fillColor = "#ccffcc";
+      style.lineWidth = lineWidth;
+      style.lineColor = "red";
+      ctx.beginPath();
+      ctx.arc(x, y, 30, 0, 2 * Math.PI);
+      ctx.translate(x, y);
+      style.defaultApplyStyle(ctx);
+      ctx.translate(-x, -y);
+    }
+    apply(undefined, 110, 60);
+    apply(0, 310, 60);
+    apply(1, 110, 160);
+    apply(3, 310, 160);
+    apply(10, 110, 260);
+  </script>
+</body>
+</html>

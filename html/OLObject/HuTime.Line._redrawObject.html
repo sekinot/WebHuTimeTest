@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.Line._redrawObject</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../index.html">HuTime</a>.<a href="HuTime.Line.html">Line</a>._redrawObject</h1>
+    </div>
+    <div id="testArea">
+      <div id="ht"></div>
+    </div>
+    <div id="description">
+      <h3>線オブジェクトの描画</h3>
+      <p>style: default, undefined (defaultと同じ), typical values</p>
+      <p style="color: red;">layer: layer（可動レイヤ）, fixed layer（固定レイヤ）－ 稼働レイヤのみ動く</p>
+      <p style="color: blue;">position: XYPosition, TVPosition － TVPositionのみ移動先の位置を保持</p>
+      <p style="color: green;">rotate: undefined, 0, 30, -30, 90, 180, 360</p>
+      <p style="color: darkred;">size:</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>指定通りの図形が描画される。</li>
+        <li>レイヤを移動させたときに、固定レイヤの図形が動かない。</li>
+        <li>レイヤを移動させたときに、TVPositionの図形が追従する。</li>
+      </ul>
+    </div>
+    <div id="footer">
+      created on 2021-01-11, updated on 2021-01-11
+    </div>
+  </div>
+  <script type="text/javascript">
+    let ht = new HuTime();
+    let panels = new HuTime.PanelCollection(400);
+    ht.appendPanelCollection(panels, document.getElementById("ht"));
+    let panel = new HuTime.TilePanel(400);
+    panels.appendPanel(panel);
+    let layer = new HuTime.Layer();
+    layer.zIndex = 40;
+    panel.appendLayer(layer);
+    let fixedLayer = new HuTime.Layer();
+    fixedLayer.fixedLayer = true;
+    fixedLayer.zIndex = 20;
+    panel.appendLayer(fixedLayer);
+
+    // style
+    let style1 =　new HuTime.Line(new HuTime.FigureStyle(),
+        [new HuTime.XYPosition(20, 40), new HuTime.XYPosition(30, 20),
+            new HuTime.XYPosition(40, 50), new HuTime.XYPosition(20, 20)]);
+    let style2 = new HuTime.Line(null,
+        [new HuTime.XYPosition(80, 40), new HuTime.XYPosition(90, 20),
+            new HuTime.XYPosition(100, 50), new HuTime.XYPosition(80, 20)]);
+    let styleTest = new HuTime.FigureStyle("pink", "green", 5);
+    let style3 = new HuTime.Line(styleTest,
+        [new HuTime.XYPosition(140, 40), new HuTime.XYPosition(150, 20),
+            new HuTime.XYPosition(160, 50), new HuTime.XYPosition(140, 20)]);
+    layer.appendObject(style1);
+    layer.appendObject(style2);
+    layer.appendObject(style3);
+
+    // layer
+    let styleLayer = new HuTime.FigureStyle(null, "red", 2);
+    let layer1 = new HuTime.Line(styleLayer,
+        [new HuTime.XYPosition(250, 40), new HuTime.XYPosition(260, 20),
+            new HuTime.XYPosition(270, 50), new HuTime.XYPosition(250, 20)]);
+    let layer2 = new HuTime.Line(styleLayer,
+        [new HuTime.XYPosition(350, 40), new HuTime.XYPosition(360, 20),
+            new HuTime.XYPosition(370, 50), new HuTime.XYPosition(350, 20)]);
+    layer.appendObject(layer1);
+    fixedLayer.appendObject(layer2);
+
+    // position
+    let stylePosition = new HuTime.FigureStyle(null, "blue", 2);
+    let position1 = new HuTime.Line(stylePosition,
+        [new HuTime.XYPosition(20, 80), new HuTime.XYPosition(30, 60),
+            new HuTime.XYPosition(40, 90), new HuTime.XYPosition(20, 60)]);
+    let position2 = new HuTime.Line(stylePosition,
+        [new HuTime.TVPosition(50, 20), new HuTime.TVPosition(53, 15),
+            new HuTime.TVPosition(56, 23), new HuTime.TVPosition(50, 15)]);
+    layer.appendObject(position1);
+    layer.appendObject(position2);
+
+    // rotate
+    let styleRotate = new HuTime.FigureStyle(null, "green", 2);
+    let rotate1 = new HuTime.Line(styleRotate,
+        [new HuTime.XYPosition(20, 130), new HuTime.XYPosition(30, 110),
+            new HuTime.XYPosition(40, 150), new HuTime.XYPosition(20, 110)]);
+    let rotate2 = new HuTime.Line(styleRotate,
+        [new HuTime.XYPosition(80, 130), new HuTime.XYPosition(90, 110),
+            new HuTime.XYPosition(100, 150), new HuTime.XYPosition(80, 110)], 0);
+    let rotate3 = new HuTime.Line(styleRotate,
+        [new HuTime.XYPosition(140, 130), new HuTime.XYPosition(150, 110),
+            new HuTime.XYPosition(160, 150), new HuTime.XYPosition(140, 110)], 30);
+    let rotate4 = new HuTime.Line(styleRotate,
+        [new HuTime.XYPosition(200, 130), new HuTime.XYPosition(210, 110),
+            new HuTime.XYPosition(220, 150), new HuTime.XYPosition(200, 110)], -30);
+    let rotate5 = new HuTime.Line(styleRotate,
+        [new HuTime.XYPosition(260, 130), new HuTime.XYPosition(270, 110),
+            new HuTime.XYPosition(280, 150), new HuTime.XYPosition(260, 110)], 90);
+    let rotate6 = new HuTime.Line(styleRotate,
+        [new HuTime.XYPosition(320, 130), new HuTime.XYPosition(330, 110),
+            new HuTime.XYPosition(340, 150), new HuTime.XYPosition(320, 110)], 180);
+    let rotate7 = new HuTime.Line(styleRotate,
+        [new HuTime.XYPosition(380, 130), new HuTime.XYPosition(390, 110),
+            new HuTime.XYPosition(400, 150), new HuTime.XYPosition(380, 110)], 360);
+    layer.appendObject(rotate1);
+    layer.appendObject(rotate2);
+    layer.appendObject(rotate3);
+    layer.appendObject(rotate4);
+    layer.appendObject(rotate5);
+    layer.appendObject(rotate6);
+    layer.appendObject(rotate7);
+
+    // size
+    let styleWidth = new HuTime.FigureStyle(null, "darkred", 2);
+    let size1 = new HuTime.Line(styleWidth,
+        [new HuTime.XYPosition(50, 300), new HuTime.XYPosition(60, 300),
+            new HuTime.XYPosition(60, 310), new HuTime.XYPosition(40, 310),
+            new HuTime.XYPosition(40, 290), new HuTime.XYPosition(70, 290),
+            new HuTime.XYPosition(70, 310), new HuTime.XYPosition(100, 310),
+            new HuTime.XYPosition(100, 290), new HuTime.XYPosition(80, 290),
+            new HuTime.XYPosition(80, 300), new HuTime.XYPosition(90, 300)]);
+    let size2 = new HuTime.Line(styleWidth,
+        [new HuTime.XYPosition(250, 300), new HuTime.XYPosition(270, 300),
+            new HuTime.XYPosition(270, 320), new HuTime.XYPosition(230, 320),
+            new HuTime.XYPosition(230, 280), new HuTime.XYPosition(290, 280),
+            new HuTime.XYPosition(290, 320), new HuTime.XYPosition(350, 320),
+            new HuTime.XYPosition(350, 280), new HuTime.XYPosition(310, 280),
+            new HuTime.XYPosition(310, 300), new HuTime.XYPosition(330, 300)]);
+    layer.appendObject(size1);
+    layer.appendObject(size2);
+
+    ht.redraw(0, 200);
+  </script>
+</body>
+</html>

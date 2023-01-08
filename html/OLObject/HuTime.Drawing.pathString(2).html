@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.Drawing.pathString(2)</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../index.html">HuTime</a>.<a href="HuTime.Drawing.html">Drawing</a>.pathString(2)</h1>
+    </div>
+    <div id="testArea">
+      <div id="ht"></div>
+    </div>
+    <div id="description">
+      <h3>文字列の描画範囲を取得（全角・半角、改行方向、縦位置の違い）</h3>
+      <p>textBaseline：top、hanging、middle、alphabetic、ideographic、bottom</p>
+      <p>各textBaselineにつき、lineHeight: 1.3, -1.3の組</p>
+      <p>1行（半角文字）</p>
+      <p>1行（全角文字）</p>
+      <p>2行（半角文字、全角文字）</p>
+      <p>2行（全角文字、半角文字）</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>範囲が文字列と一致している。<br />（ブラウザやtextBaseLineによっては、わずかなはみ出しはあり）</li>
+        <li>1行の場合、改行方向にかかわらず、範囲が同じ。</li>
+      </ul>
+
+    </div>
+    <div id="footer">
+      created on 2021-01-03, updated on 2021-01-03
+    </div>
+  </div>
+  <script type="text/javascript">
+    let ht = new HuTime();
+    let panels = new HuTime.PanelCollection(400);
+    ht.appendPanelCollection(panels, document.getElementById("ht"));
+    let panel = new HuTime.TilePanel(400);
+    panels.appendPanel(panel);
+    let layer = new HuTime.Layer();
+    layer.zIndex = 40;
+    panel.appendLayer(layer);
+    let fixedLayer = new HuTime.Layer();
+    fixedLayer.fixedLayer = true;
+    fixedLayer.zIndex = 20;
+    panel.appendLayer(fixedLayer);
+
+    layer.processAfterRedraw = function processAfterRedraw() {
+        // 1行（半角文字）
+        testPathString("Style", 30);
+
+        // 1行（全角文字）
+        testPathString("イ永", 80);
+
+        // 2行（半角文字、全角文字）
+        testPathString("Style\nイ永", 180);
+
+        // 2行（全角文字、半角文字）
+        testPathString("イ永\nStyle", 280);
+    }
+    ht.redraw(0, 200);
+
+    function testPathString(text, posY) {
+        let textBaselines = ["top", "hanging", "middle",
+            "alphabetic", "ideographic", "bottom"];
+        let style = new HuTime.StringStyle(20, "red");
+
+        for (let i = 0; i < textBaselines.length; ++i) {
+        style.textBaseline = textBaselines[i];
+        style.lineHeight = 1.3;
+        drawPathString(style,
+            layer, new HuTime.XYPosition(10 + i * 100, posY), text);
+        style.lineHeight = -1.3;
+        drawPathString(style,
+            layer, new HuTime.XYPosition(60 + i * 100, posY), text);
+        }
+    }
+
+    function drawPathString(style, layer, position, text, rotate, canvas) {
+        let ctx = HuTime.Drawing.pathString(
+            style, layer, position, text, rotate, canvas);
+        ctx.fillStyle = "#ffcccc";
+        ctx.fill();
+        HuTime.Drawing.drawString(style, layer, position, text, rotate, canvas);
+    }
+  </script>
+</body>
+</html>

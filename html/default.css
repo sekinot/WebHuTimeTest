@@ -1,0 +1,73 @@
+@charset "utf-8";
+
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    margin: 0;
+    padding: 0;
+    font: 100% Verdana, Arial, Helvetica, sans-serif;
+    background: #ffff;
+    text-align: center;
+    color: #000000;
+}
+#container {
+    margin: 0 auto;
+    padding: 10px 15px;
+    text-align: left;
+}
+
+#header {
+    padding: 0 0 4px 0;
+}
+#header * {
+    font-size: 20px;
+    color: #003399;
+    text-decoration: none;
+}
+#header a:hover {
+    text-decoration: underline;
+}
+
+#testArea {
+    height: 400px;
+    width: 700px;
+    border: solid 1px black;
+}
+#ht {
+}
+
+#description {
+    padding: 4px 0;
+}
+#description h3 {
+    padding: 10px 0 0 0;
+    font-size: 16px;
+}
+#description ul {
+    margin: 0 0 0 16px;
+    font-size: 14px;
+}
+
+#list {
+    padding: 4px 0;
+}
+#list * {
+    font-size: 16px;
+    text-decoration: none;
+}
+#list ul {
+    margin: 0 0 0 20px;
+}
+#list li {
+    padding: 2px 0;
+}
+#list a:hover {
+    text-decoration: underline;
+}
+
+#footer {
+    font-size: 12px;
+    padding: 20px 0 0 0;
+}

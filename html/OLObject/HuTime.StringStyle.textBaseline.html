@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.StringStyle.textBaseline</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../index.html">HuTime</a>.<a href="HuTime.StringStyle.html">StringStyle</a>.textBaseline</h1>
+    </div>
+    <div id="testArea">
+      <canvas id="canvas" height="400" width="700"></canvas>
+    </div>
+    <div id="description">
+      <h3>テキスト縦方向の整列位置</h3>
+      <p>undefined, top, hanging, middle, alphabetic, ideographic, bottom</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>基準位置（赤い横線）に対して指定した位置で描画される。</li>
+        <li>undefinedはalphabeticと同じ。</li>
+      </ul>
+    </div>
+    <div id="footer">
+      created on 2020-12-30, updated on 2021-01-03
+    </div>
+  </div>
+  <script type="text/javascript">
+    function apply (textBaseline, x, y) {
+      let style = new HuTime.StringStyle();
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext("2d");
+      style.fontSize = 20;
+      style.textBaseline = textBaseline;
+      ctx.translate(x, y);
+      style.defaultApplyStyle(ctx, "String");
+      ctx.translate(-x, -y);
+    }
+
+    let canvas = document.getElementById("canvas");
+    let ctx = canvas.getContext("2d");
+    ctx.beginPath();
+    ctx.moveTo(0, 50);
+    ctx.lineTo(700, 50);
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    apply(undefined, 10, 50);
+    apply("top", 70, 50);
+    apply("hanging", 130, 50);
+    apply("middle", 190, 50);
+    apply("alphabetic", 250, 50);
+    apply("ideographic", 310, 50);
+    apply("bottom", 370, 50);
+  </script>
+</body>
+</html>

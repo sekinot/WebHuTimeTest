@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.String._getExtractionArea</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../index.html">HuTime</a>.<a href="HuTime.String.html">String</a>._getExtractionArea</h1>
+    </div>
+    <div id="testArea">
+      <div id="ht"></div>
+    </div>
+    <div id="description">
+      <h3>文字列の描画範囲を取得</h3>
+      <p>style: default, undefined (defaultと同じ), typical values</p>
+      <p style="color: red;">layer: layer（可動レイヤ）, fixed layer（固定レイヤ）－ 稼働レイヤのみ動く</p>
+      <p style="color: blue;">position: XYPosition, TVPosition － TVPositionのみ移動先の位置を保持</p>
+      <p style="color: green;">rotate: undefined, 0, 30, -30, 90, 180, 360</p>
+      <p style="color: darkred;">style.lineHeight: 1, 2, -1, -1.5, 30px, -30px</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>範囲が文字列と一致している。</li>
+        <li>レイヤを移動させたときに、固定レイヤの文字と範囲が動かない。</li>
+        <li>レイヤを移動させたときに、TVPositionの文字と範囲が追従する。</li>
+      </ul>
+    </div>
+    <div id="footer">
+      created on 2021-01-02, updated on 2021-01-03
+    </div>
+  </div>
+  <script type="text/javascript">
+    let ht = new HuTime();
+    let panels = new HuTime.PanelCollection(400);
+    ht.appendPanelCollection(panels, document.getElementById("ht"));
+    let panel = new HuTime.TilePanel(400);
+    panels.appendPanel(panel);
+    let layer = new HuTime.Layer();
+    layer.zIndex = 40;
+    panel.appendLayer(layer);
+    let fixedLayer = new HuTime.Layer();
+    fixedLayer.fixedLayer = true;
+    fixedLayer.zIndex = 20;
+    panel.appendLayer(fixedLayer);
+
+    // style
+    layer.appendObject(new HuTime.String(new HuTime.StringStyle(),
+        new HuTime.XYPosition(10, 20), "Style\nSetting"));
+    layer.appendObject(new HuTime.String(null,
+        new HuTime.XYPosition(50, 20), "Style\nSetting"));
+    let styleTest = new HuTime.StringStyle("20px", "red", 700, "italic", "serif");
+    styleTest.fontVariant = "small-caps";
+    styleTest.lineHeight = 1.5;
+    styleTest.textAlign = "end";
+    styleTest.textBaseline = "middle";
+    styleTest.lineWidth = 2;
+    styleTest.lineColor = "green";
+    styleTest.alpha = 0.5;
+    layer.appendObject(new HuTime.String(styleTest,
+        new HuTime.XYPosition(170, 20), "Style\nSetting"));
+
+    // layer
+    let styleLayer = new HuTime.StringStyle(20, "red");
+    layer.appendObject(new HuTime.String(styleLayer,
+        new HuTime.XYPosition(270, 20), "layer"));
+    fixedLayer.appendObject(new HuTime.String(styleLayer,
+        new HuTime.XYPosition(370, 20), "fixed layer"));
+
+    // position
+    let stylePosition = new HuTime.StringStyle(20, "blue");
+    layer.appendObject(new HuTime.String(stylePosition,
+        new HuTime.XYPosition(10, 100), "XYPosition"));
+    layer.appendObject(new HuTime.String(stylePosition,
+        new HuTime.TVPosition(50, 25), "TVPosition"));
+
+    // rotate
+    let styleRotate = new HuTime.StringStyle(20, "green");
+    layer.appendObject(new HuTime.String(styleRotate,
+        new HuTime.XYPosition(10, 150), "undefined"));
+    layer.appendObject(new HuTime.String(styleRotate,
+        new HuTime.XYPosition(110, 150), "0deg", 0));
+    layer.appendObject(new HuTime.String(styleRotate,
+        new HuTime.XYPosition(180, 150), "30deg", 30));
+    layer.appendObject(new HuTime.String(styleRotate,
+        new HuTime.XYPosition(250, 150), "-30deg", -30));
+    layer.appendObject(new HuTime.String(styleRotate,
+        new HuTime.XYPosition(320, 150), "90deg", 90));
+    layer.appendObject(new HuTime.String(styleRotate,
+        new HuTime.XYPosition(440, 150), "180deg", 180));
+    layer.appendObject(new HuTime.String(styleRotate,
+        new HuTime.XYPosition(460, 150), "360deg", 360));
+
+    // style.lineHeight
+    let styleLineHeight00 = new HuTime.StringStyle(20, "darkred");
+    styleLineHeight00.lineHeight = 1;
+    layer.appendObject(new HuTime.String(styleLineHeight00,
+        new HuTime.XYPosition(10, 330), "1（壱）\n1（壱）", 0));
+    let styleLineHeight01 = new HuTime.StringStyle(20, "darkred");
+    styleLineHeight01.lineHeight = 2;
+    layer.appendObject(new HuTime.String(styleLineHeight01,
+        new HuTime.XYPosition(90, 330), "2（弐）\n2（弐）", 0));
+    let styleLineHeight02 = new HuTime.StringStyle(20, "darkred");
+    styleLineHeight02.lineHeight = -1;
+    layer.appendObject(new HuTime.String(styleLineHeight02,
+        new HuTime.XYPosition(170, 330), "-1（壱）\n-1（壱）", 0));
+    let styleLineHeight03 = new HuTime.StringStyle(20, "darkred");
+    styleLineHeight03.lineHeight = -1.5;
+    layer.appendObject(new HuTime.String(styleLineHeight03,
+        new HuTime.XYPosition(260, 330), "-1.5（壱.伍）\n-1.5（壱.伍）", 0));
+    let styleLineHeight04 = new HuTime.StringStyle(20, "darkred");
+    styleLineHeight04.lineHeight = "30px";
+    layer.appendObject(new HuTime.String(styleLineHeight04,
+        new HuTime.XYPosition(390, 330), "30px（卅）\n30px（卅）", 0));
+    let styleLineHeight05 = new HuTime.StringStyle(20, "darkred");
+    styleLineHeight05.lineHeight = "-30px";
+    layer.appendObject(new HuTime.String(styleLineHeight05,
+        new HuTime.XYPosition(500, 330), "-30px（卅）\n-30px（卅）", 0));
+    layer.processBeforeRedraw = function processBeforeRedraw() {
+        layer.objects.forEach ((obj) => {
+            let ctx = obj._getExtractionArea();
+            ctx.fillStyle = "#ffcccc";
+            ctx.fill();
+        });
+    }
+    fixedLayer.processBeforeRedraw = function processBeforeRedraw() {
+        fixedLayer.objects.forEach ((obj) => {
+            let ctx = obj._getExtractionArea();
+            ctx.fillStyle = "#ffcccc";
+            ctx.fill();
+        });
+    }
+    ht.redraw(0, 200);
+  </script>
+</body>
+</html>

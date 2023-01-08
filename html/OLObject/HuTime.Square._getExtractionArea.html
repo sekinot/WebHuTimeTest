@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.Square._getExtractionArea</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../index.html">HuTime</a>.<a href="HuTime.Square.html">Square</a>._getExtractionArea</h1>
+    </div>
+    <div id="testArea">
+      <div id="ht"></div>
+    </div>
+    <div id="description">
+      <h3>正方形の描画領域</h3>
+      <p>style: default, undefined (defaultと同じ), typical values</p>
+      <p style="color: red;">layer: layer（可動レイヤ）, fixed layer（固定レイヤ）－ 稼働レイヤのみ動く</p>
+      <p style="color: blue;">position: XYPosition, TVPosition － TVPositionのみ移動先の位置を保持</p>
+      <p style="color: green;">rotate: undefined, 0, 30, -30, 90, 180, 360</p>
+      <p style="color: darkred;">width: 10, 20, 40, 100, 150</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>同じ領域が下に描画されている。</li>
+      </ul>
+    </div>
+    <div id="footer">
+      created on 2021-01-05, updated on 2021-01-11
+    </div>
+  </div>
+  <script type="text/javascript">
+    let ht = new HuTime();
+    let panels = new HuTime.PanelCollection(400);
+    ht.appendPanelCollection(panels, document.getElementById("ht"));
+    let panel = new HuTime.TilePanel(400);
+    panels.appendPanel(panel);
+    let layer = new HuTime.Layer();
+    layer.zIndex = 40;
+    panel.appendLayer(layer);
+    let fixedLayer = new HuTime.Layer();
+    fixedLayer.fixedLayer = true;
+    fixedLayer.zIndex = 20;
+    panel.appendLayer(fixedLayer);
+
+    let pathStyle = new HuTime.FigureStyle("rgba(255, 0, 0, 0.2)")
+    function drawPath(ctx) {
+        pathStyle.applyFillStyle.call(pathStyle, ctx);
+    }
+
+    // style
+    let style1 = new HuTime.Square(new HuTime.FigureStyle(),
+        new HuTime.XYPosition(40, 40), 40);
+    let style2 = new HuTime.Square(null,
+        new HuTime.XYPosition(100, 40), 40);
+    let styleTest = new HuTime.FigureStyle("pink", "green", 5);
+    let style3 = new HuTime.Square(styleTest,
+        new HuTime.XYPosition(160, 40), 40);
+    layer.appendObject(style1);
+    layer.appendObject(style2);
+    layer.appendObject(style3);
+
+    // layer
+    let styleLayer = new HuTime.FigureStyle(null, "red", 2);
+    let layer1 = new HuTime.Square(styleLayer,
+        new HuTime.XYPosition(270, 40), 40);
+    let layer2 = new HuTime.Square(styleLayer,
+        new HuTime.XYPosition(370, 40), 40);
+    layer.appendObject(layer1);
+    fixedLayer.appendObject(layer2);
+
+    // position
+    let stylePosition = new HuTime.FigureStyle(null, "blue", 2);
+    let position1 = new HuTime.Square(stylePosition,
+        new HuTime.XYPosition(40, 100), 40);
+    let position2 = new HuTime.Square(stylePosition,
+        new HuTime.TVPosition(50, 25), 40);
+    layer.appendObject(position1);
+    layer.appendObject(position2);
+
+    // rotate
+    let styleRotate = new HuTime.FigureStyle(null, "green", 2);
+    let rotate1 = new HuTime.Square(styleRotate,
+        new HuTime.XYPosition(40, 150), 40);
+    let rotate2 = new HuTime.Square(styleRotate,
+        new HuTime.XYPosition(100, 150), 40, 0);
+    let rotate3 = new HuTime.Square(styleRotate,
+        new HuTime.XYPosition(160, 150), 40, 30);
+    let rotate4 = new HuTime.Square(styleRotate,
+        new HuTime.XYPosition(220, 150), 40, -30);
+    let rotate5 = new HuTime.Square(styleRotate,
+        new HuTime.XYPosition(280, 150), 40, 90);
+    let rotate6 = new HuTime.Square(styleRotate,
+        new HuTime.XYPosition(340, 150), 40, 180);
+    let rotate7 = new HuTime.Square(styleRotate,
+        new HuTime.XYPosition(400, 150), 40, 360);
+    layer.appendObject(rotate1);
+    layer.appendObject(rotate2);
+    layer.appendObject(rotate3);
+    layer.appendObject(rotate4);
+    layer.appendObject(rotate5);
+    layer.appendObject(rotate6);
+    layer.appendObject(rotate7);
+
+    // width
+    let styleWidth = new HuTime.FigureStyle(null, "darkred", 2);
+    let width1 = new HuTime.Square(styleWidth,
+        new HuTime.XYPosition(20, 310), 10);
+    let width2 = new HuTime.Square(styleWidth,
+        new HuTime.XYPosition(50, 310), 20);
+    let width3 = new HuTime.Square(styleWidth,
+        new HuTime.XYPosition(100, 310), 40);
+    let width4 = new HuTime.Square(styleWidth,
+        new HuTime.XYPosition(200, 310), 100);
+    let width5 = new HuTime.Square(styleWidth,
+        new HuTime.XYPosition(350, 310), 150);
+    layer.appendObject(width1);
+    layer.appendObject(width2);
+    layer.appendObject(width3);
+    layer.appendObject(width4);
+    layer.appendObject(width5);
+
+    layer.processAfterRedraw = function processAfterRedraw() {
+        // style
+        drawPath(style1._getExtractionArea());
+        drawPath(style2._getExtractionArea());
+        drawPath(style3._getExtractionArea());
+
+        // layer
+        drawPath(layer1._getExtractionArea());
+        drawPath(layer2._getExtractionArea());
+
+        // position
+        drawPath(position1._getExtractionArea());
+        drawPath(position2._getExtractionArea());
+
+        // rotate
+        drawPath(rotate1._getExtractionArea());
+        drawPath(rotate2._getExtractionArea());
+        drawPath(rotate3._getExtractionArea());
+        drawPath(rotate4._getExtractionArea());
+        drawPath(rotate5._getExtractionArea());
+        drawPath(rotate6._getExtractionArea());
+        drawPath(rotate7._getExtractionArea());
+
+        // width
+        drawPath(width1._getExtractionArea());
+        drawPath(width2._getExtractionArea());
+        drawPath(width3._getExtractionArea());
+        drawPath(width4._getExtractionArea());
+        drawPath(width5._getExtractionArea());
+    }
+    ht.redraw(0, 200);
+  </script>
+</body>
+</html>

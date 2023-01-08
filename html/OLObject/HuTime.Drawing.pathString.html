@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.Drawing.pathString</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../index.html">HuTime</a>.<a href="HuTime.Drawing.html">Drawing</a>.pathString</h1>
+    </div>
+    <div id="testArea">
+      <div id="ht"></div>
+    </div>
+    <div id="description">
+      <h3>文字列の描画範囲を取得</h3>
+      <p>style: default(引数なしのコンストラクタ), undefined (defaultと同じ), typical values</p>
+      <p style="color: red;">layer: layer（可動レイヤ）, fixed layer（固定レイヤ）－ 稼働レイヤのみ動く</p>
+      <p style="color: blue;">position: XYPosition, TVPosition － TVPositionのみ移動先の位置を保持</p>
+      <p style="color: green;">rotate: undefined, 0, 30, -30, 90, 180, 360</p>
+      <p style="color: darkorange;">canvas: undefined, layerと同じcanvas, layerと異なる固定レイヤのcanvas</p>
+      <p style="color: darkred;">style.lineHeight: 1, 2, -1, -1.5, 30px, -30px</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>範囲が文字列と一致している。</li>
+        <li>レイヤを移動させたときに、固定レイヤの文字と範囲が動かない。</li>
+        <li>レイヤを移動させたときに、TVPositionの文字と範囲が追従する。</li>
+      </ul>
+
+    </div>
+    <div id="footer">
+      created on 2020-12-31, updated on 2021-01-03
+    </div>
+  </div>
+  <script type="text/javascript">
+    let ht = new HuTime();
+    let panels = new HuTime.PanelCollection(400);
+    ht.appendPanelCollection(panels, document.getElementById("ht"));
+    let panel = new HuTime.TilePanel(400);
+    panels.appendPanel(panel);
+    let layer = new HuTime.Layer();
+    layer.zIndex = 40;
+    panel.appendLayer(layer);
+    let fixedLayer = new HuTime.Layer();
+    fixedLayer.fixedLayer = true;
+    fixedLayer.zIndex = 20;
+    panel.appendLayer(fixedLayer);
+
+    let style = new HuTime.StringStyle(20, "red");
+    layer.processAfterRedraw = function processAfterRedraw() {
+        // style
+        drawPathString(new HuTime.StringStyle(),
+            layer, new HuTime.XYPosition(10, 20), "Style\nSetting");
+        drawPathString(null,
+            layer, new HuTime.XYPosition(50, 20), "Style\nSetting");
+        let styleTest = new HuTime.StringStyle("20px", "red", 700, "italic", "serif");
+        styleTest.fontVariant = "small-caps";
+        styleTest.lineHeight = 1.5;
+        styleTest.textAlign = "end";
+        styleTest.textBaseline = "middle";
+        styleTest.lineWidth = 2;
+        styleTest.lineColor = "green";
+        styleTest.alpha = 0.5;
+        drawPathString(styleTest,
+            layer, new HuTime.XYPosition(170, 20), "Style\nSetting");
+
+        // layer
+        style.fillColor = "red";
+        drawPathString(style, layer,
+            new HuTime.XYPosition(270, 20), "layer");
+        drawPathString(style, fixedLayer,
+            new HuTime.XYPosition(370, 20), "fixed layer");
+
+        // position
+        style.fillColor = "blue";
+        drawPathString(style, layer,
+            new HuTime.XYPosition(10, 100), "XYPosition");
+        drawPathString(style, layer,
+            new HuTime.TVPosition(50, 25), "TVPosition");
+
+        // rotate
+        style.fillColor = "green";
+        drawPathString(style, layer,
+            new HuTime.XYPosition(10, 150), "undefined");
+        drawPathString(style, layer,
+            new HuTime.XYPosition(110, 150), "0deg", 0);
+        drawPathString(style, layer,
+            new HuTime.XYPosition(180, 150), "30deg", 30);
+        drawPathString(style, layer,
+            new HuTime.XYPosition(250, 150), "-30deg", -30);
+        drawPathString(style, layer,
+            new HuTime.XYPosition(320, 150), "90deg", 90);
+        drawPathString(style, layer,
+            new HuTime.XYPosition(440, 150), "180deg", 180);
+        drawPathString(style, layer,
+            new HuTime.XYPosition(460, 150), "360deg", 360);
+
+        // canvas
+        style.fillColor = "darkorange";
+        drawPathString(style, layer,
+            new HuTime.XYPosition(10, 250), "undefined", 0);
+        drawPathString(style, layer,
+            new HuTime.XYPosition(150, 250), "canvas", 0, layer.canvas);
+        drawPathString(style, layer,
+            new HuTime.XYPosition(250, 250), "fixed canvas", 0, fixedLayer.canvas);
+
+        // style.lineHeight
+        style.fillColor = "darkred";
+        style.lineHeight = 1;
+        drawPathString(style, layer,
+            new HuTime.XYPosition(10, 330), "1（壱）\n1（壱）", 0);
+        style.lineHeight = 2;
+        drawPathString(style, layer,
+            new HuTime.XYPosition(90, 330), "2（弐）\n2（弐）", 0);
+        style.lineHeight = -1;
+        drawPathString(style, layer,
+            new HuTime.XYPosition(170, 330), "-1（壱）\n-1（壱）", 0);
+        style.lineHeight = -1.5;
+        drawPathString(style, layer,
+            new HuTime.XYPosition(260, 330), "-1.5（壱.伍）\n-1.5（壱.伍）", 0);
+        style.lineHeight = "30px";
+        drawPathString(style, layer,
+            new HuTime.XYPosition(390, 330), "30px（卅）\n30px（卅）", 0);
+        style.lineHeight = "-30px";
+        drawPathString(style, layer,
+            new HuTime.XYPosition(500, 330), "-30px（卅）\n-30px（卅）", 0);
+
+        style.lineHeight = 1;
+    }
+    ht.redraw(0, 200);
+
+    function drawPathString(style, layer, position, text, rotate, canvas) {
+        let ctx = HuTime.Drawing.pathString(
+            style, layer, position, text, rotate, canvas);
+        ctx.fillStyle = "#ffcccc";
+        ctx.fill();
+        HuTime.Drawing.drawString(style, layer, position, text, rotate, canvas);
+    }
+  </script>
+</body>
+</html>

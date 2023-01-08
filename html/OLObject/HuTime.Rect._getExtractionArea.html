@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.Rect._getExtractionArea</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../index.html">HuTime</a>.<a href="HuTime.Rect.html">Rect</a>._getExtractionArea</h1>
+    </div>
+    <div id="testArea">
+      <div id="ht"></div>
+    </div>
+    <div id="description">
+      <h3>矩形の描画領域</h3>
+      <p>style: default, undefined (defaultと同じ), typical values</p>
+      <p style="color: red;">layer: layer（可動レイヤ）, fixed layer（固定レイヤ）－ 稼働レイヤのみ動く</p>
+      <p style="color: blue;">position: XYPosition, TVPosition － TVPositionのみ移動先の位置を保持</p>
+      <p style="color: green;">rotate: undefined, 0, 30, -30, 90, 180, 360</p>
+      <p style="color: darkred;">width: 10, 20, 40, 100, 150</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>同じ領域が下に描画されている。</li>
+      </ul>
+    </div>
+    <div id="footer">
+      created on 2021-01-11, updated on 2021-01-11
+    </div>
+  </div>
+  <script type="text/javascript">
+    let ht = new HuTime();
+    let panels = new HuTime.PanelCollection(400);
+    ht.appendPanelCollection(panels, document.getElementById("ht"));
+    let panel = new HuTime.TilePanel(400);
+    panels.appendPanel(panel);
+    let layer = new HuTime.Layer();
+    layer.zIndex = 40;
+    panel.appendLayer(layer);
+    let fixedLayer = new HuTime.Layer();
+    fixedLayer.fixedLayer = true;
+    fixedLayer.zIndex = 20;
+    panel.appendLayer(fixedLayer);
+
+    let pathStyle = new HuTime.FigureStyle("rgba(255, 0, 0, 0.2)")
+    function drawPath(ctx) {
+        pathStyle.applyFillStyle.call(pathStyle, ctx);
+    }
+
+    // style
+    let style1 = new HuTime.Rect(new HuTime.FigureStyle(),
+        new HuTime.XYPosition(40, 40), new HuTime.XYPosition(80, 60));
+    let style2 = new HuTime.Rect(null,
+        new HuTime.XYPosition(100, 40),  new HuTime.XYPosition(140, 60));
+    let styleTest = new HuTime.FigureStyle("pink", "green", 5);
+    let style3 = new HuTime.Rect(styleTest,
+        new HuTime.XYPosition(160, 40),  new HuTime.XYPosition(200, 60));
+    layer.appendObject(style1);
+    layer.appendObject(style2);
+    layer.appendObject(style3);
+
+    // layer
+    let styleLayer = new HuTime.FigureStyle(null, "red", 2);
+    let layer1 = new HuTime.Rect(styleLayer,
+        new HuTime.XYPosition(270, 40), new HuTime.XYPosition(310, 60));
+    let layer2 = new HuTime.Rect(styleLayer,
+        new HuTime.XYPosition(370, 40), new HuTime.XYPosition(410, 60));
+    layer.appendObject(layer1);
+    fixedLayer.appendObject(layer2);
+
+    // position
+    let stylePosition = new HuTime.FigureStyle(null, "blue", 2);
+    let position1 = new HuTime.Rect(stylePosition,
+        new HuTime.XYPosition(40, 100), new HuTime.XYPosition(80, 120));
+    let position2 = new HuTime.Rect(stylePosition,
+        new HuTime.TVPosition(50, 25), new HuTime.TVPosition(62, 30));
+    layer.appendObject(position1);
+    layer.appendObject(position2);
+
+    // rotate
+    let styleRotate = new HuTime.FigureStyle(null, "green", 2);
+    let rotate1 = new HuTime.Rect(styleRotate,
+        new HuTime.XYPosition(40, 150), new HuTime.XYPosition(80, 170));
+    let rotate2 = new HuTime.Rect(styleRotate,
+        new HuTime.XYPosition(100, 150), new HuTime.XYPosition(140, 170), 0);
+    let rotate3 = new HuTime.Rect(styleRotate,
+        new HuTime.XYPosition(160, 150), new HuTime.XYPosition(200, 170), 30);
+    let rotate4 = new HuTime.Rect(styleRotate,
+        new HuTime.XYPosition(220, 150), new HuTime.XYPosition(260, 170), -30);
+    let rotate5 = new HuTime.Rect(styleRotate,
+        new HuTime.XYPosition(280, 150), new HuTime.XYPosition(320, 170), 90);
+    let rotate6 = new HuTime.Rect(styleRotate,
+        new HuTime.XYPosition(340, 150), new HuTime.XYPosition(380, 170), 180);
+    let rotate7 = new HuTime.Rect(styleRotate,
+        new HuTime.XYPosition(400, 150), new HuTime.XYPosition(440, 170), 360);
+    layer.appendObject(rotate1);
+    layer.appendObject(rotate2);
+    layer.appendObject(rotate3);
+    layer.appendObject(rotate4);
+    layer.appendObject(rotate5);
+    layer.appendObject(rotate6);
+    layer.appendObject(rotate7);
+
+    // size
+    let styleWidth = new HuTime.FigureStyle(null, "darkred", 2);
+    let size1 = new HuTime.Rect(styleWidth,
+        new HuTime.XYPosition(20, 310), new HuTime.XYPosition(30, 330));
+    let size2 = new HuTime.Rect(styleWidth,
+        new HuTime.XYPosition(50, 310), new HuTime.XYPosition(70, 340));
+    let size3 = new HuTime.Rect(styleWidth,
+        new HuTime.XYPosition(100, 310), new HuTime.XYPosition(140, 350));
+    let size4 = new HuTime.Rect(styleWidth,
+        new HuTime.XYPosition(200, 310), new HuTime.XYPosition(300, 360));
+    let size5 = new HuTime.Rect(styleWidth,
+        new HuTime.XYPosition(350, 310), new HuTime.XYPosition(500, 370));
+    layer.appendObject(size1);
+    layer.appendObject(size2);
+    layer.appendObject(size3);
+    layer.appendObject(size4);
+    layer.appendObject(size5);
+
+    layer.processAfterRedraw = function processAfterRedraw() {
+        // style
+        drawPath(style1._getExtractionArea());
+        drawPath(style2._getExtractionArea());
+        drawPath(style3._getExtractionArea());
+
+        // layer
+        drawPath(layer1._getExtractionArea());
+        drawPath(layer2._getExtractionArea());
+
+        // position
+        drawPath(position1._getExtractionArea());
+        drawPath(position2._getExtractionArea());
+
+        // rotate
+        drawPath(rotate1._getExtractionArea());
+        drawPath(rotate2._getExtractionArea());
+        drawPath(rotate3._getExtractionArea());
+        drawPath(rotate4._getExtractionArea());
+        drawPath(rotate5._getExtractionArea());
+        drawPath(rotate6._getExtractionArea());
+        drawPath(rotate7._getExtractionArea());
+
+        // width
+        drawPath(size1._getExtractionArea());
+        drawPath(size2._getExtractionArea());
+        drawPath(size3._getExtractionArea());
+        drawPath(size4._getExtractionArea());
+        drawPath(size5._getExtractionArea());
+    }
+    ht.redraw(0, 200);
+  </script>
+</body>
+</html>

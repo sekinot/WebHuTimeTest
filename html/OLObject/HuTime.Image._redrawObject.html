@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.Image._redrawObject</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../index.html">HuTime</a>.<a href="HuTime.Image.html">Image</a>._redrawObject</h1>
+    </div>
+    <div id="testArea">
+      <div id="ht"></div>
+    </div>
+    <div id="description">
+      <h3>画像の描画</h3>
+      <p>style: default, undefined (defaultと同じ), typical values</p>
+      <p style="color: red;">layer: layer（可動レイヤ）, fixed layer（固定レイヤ）－ 稼働レイヤのみ動く</p>
+      <p style="color: blue;">position: XYPosition, TVPosition － TVPositionのみ移動先の位置を保持</p>
+      <p style="color: green;">rotate: undefined, 0, 30, -30, 90, 180, 360</p>
+      <p style="color: darkcyan;">src: "test"（不正なファイル名）, undefined (40 x undefined, true), null (undefined x 40, true),<br />
+        "" (undefined x undefined, true), "" (undefined x undefined, false), "" (40 x 40, true)<br />
+        src (width, height, drawTempBackground)</p>
+      <p style="color: darkred;">width: 20x20, 150x40, 40x150, 40 x undefined, undefined x 40, undefined x undefined</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>指定通りの画像と枠が描画される。</li>
+        <li>レイヤを移動させたときに、固定レイヤの図形が動かない。</li>
+        <li>レイヤを移動させたときに、TVPositionの図形が追従する。</li>
+        <li>drawTempBackground=falseでsrcが不正な場合は背景も表示されない。</li>
+      </ul>
+    </div>
+    <div id="footer">
+      created on 2021-01-21, updated on 2021-01-21
+    </div>
+  </div>
+  <script type="text/javascript">
+    let ht = new HuTime();
+    let panels = new HuTime.PanelCollection(400);
+    ht.appendPanelCollection(panels, document.getElementById("ht"));
+    let panel = new HuTime.TilePanel(400);
+    panels.appendPanel(panel);
+    let layer = new HuTime.Layer();
+    layer.zIndex = 40;
+    panel.appendLayer(layer);
+    let fixedLayer = new HuTime.Layer();
+    fixedLayer.fixedLayer = true;
+    fixedLayer.zIndex = 20;
+    panel.appendLayer(fixedLayer);
+
+    // style
+    let style1 = new HuTime.Image(new HuTime.FigureStyle(),
+        new HuTime.XYPosition(40, 40),
+        "../testImage.png", 40, 40);
+    let style2 = new HuTime.Image(null,
+        new HuTime.XYPosition(100, 40),
+        "../testImage.png", 40, 40);
+    let styleTest = new HuTime.FigureStyle("pink", "green", 5);
+    let style3 = new HuTime.Image(styleTest,
+        new HuTime.XYPosition(160, 40),
+        "../testImage.png", 40, 40);
+    layer.appendObject(style1);
+    layer.appendObject(style2);
+    layer.appendObject(style3);
+
+    // layer
+    let styleLayer = new HuTime.FigureStyle("cyan", "red", 5);
+    let layer1 = new HuTime.Image(styleLayer,
+        new HuTime.XYPosition(270, 40),
+        "../testImage.png", 40, 40);
+    let layer2 = new HuTime.Image(styleLayer,
+        new HuTime.XYPosition(370, 40),
+        "../testImage.png", 40, 40);
+    layer.appendObject(layer1);
+    fixedLayer.appendObject(layer2);
+
+    // position
+    let stylePosition = new HuTime.FigureStyle("cyan", "blue", 5);
+    let position1 = new HuTime.Image(stylePosition,
+        new HuTime.XYPosition(40, 100),
+        "../testImage.png", 40, 40);
+    let position2 = new HuTime.Image(stylePosition,
+        new HuTime.TVPosition(50, 25),
+        "../testImage.png", 40, 40);
+    layer.appendObject(position1);
+    layer.appendObject(position2);
+
+    // rotate
+    let styleRotate = new HuTime.FigureStyle("cyan", "green", 5);
+    let rotate1 = new HuTime.Image(styleRotate,
+        new HuTime.XYPosition(40, 160),
+        "../testImage.png", 40, 40);
+    let rotate2 = new HuTime.Image(styleRotate,
+        new HuTime.XYPosition(100, 160),
+        "../testImage.png", 40, 40, 0);
+    let rotate3 = new HuTime.Image(styleRotate,
+        new HuTime.XYPosition(160, 160),
+        "../testImage.png", 40, 40, 30);
+    let rotate4 = new HuTime.Image(styleRotate,
+        new HuTime.XYPosition(230, 160),
+        "../testImage.png", 40, 40, -30);
+    let rotate5 = new HuTime.Image(styleRotate,
+        new HuTime.XYPosition(290, 160),
+        "../testImage.png", 40, 40, 90);
+    let rotate6 = new HuTime.Image(styleRotate,
+        new HuTime.XYPosition(350, 160),
+        "../testImage.png", 40, 40, 180);
+    let rotate7 = new HuTime.Image(styleRotate,
+        new HuTime.XYPosition(410, 160),
+        "../testImage.png", 40, 40, 360);
+    layer.appendObject(rotate1);
+    layer.appendObject(rotate2);
+    layer.appendObject(rotate3);
+    layer.appendObject(rotate4);
+    layer.appendObject(rotate5);
+    layer.appendObject(rotate6);
+    layer.appendObject(rotate7);
+
+    // src
+    let styleSrc = new HuTime.FigureStyle("cyan", "darkcyan", 5);
+    let src1 = new HuTime.Image(styleSrc,
+        new HuTime.XYPosition(340, 220),
+        "test", null, null, 0, true);
+    let src2 = new HuTime.Image(styleSrc,
+        new HuTime.XYPosition(400, 220),
+        undefined, 40, null, 0, true);
+    let src3 = new HuTime.Image(styleSrc,
+        new HuTime.XYPosition(460, 220),
+        null, null, 40, 0, true);
+    let src4 = new HuTime.Image(styleSrc,
+        new HuTime.XYPosition(520, 220),
+        "", null, null, 0, true);
+    let src5 = new HuTime.Image(styleSrc,
+        new HuTime.XYPosition(580, 220),
+        "", null, null, 0, false);
+    let src6 = new HuTime.Image(styleSrc,
+        new HuTime.XYPosition(640, 220),
+        "", 40, 40, 0, true);
+    layer.appendObject(src1);
+    layer.appendObject(src2);
+    layer.appendObject(src3);
+    layer.appendObject(src4);
+    layer.appendObject(src5);
+    layer.appendObject(src6);
+
+    // size
+    let styleSize = new HuTime.FigureStyle("cyan", "darkred", 5);
+    let width1 = new HuTime.Image(styleSize,
+        new HuTime.XYPosition(30, 310),
+        "../testImage.png", 20, 20);
+    let width2 = new HuTime.Image(styleSize,
+        new HuTime.XYPosition(150, 310),
+        "../testImage.png", 150, 40);
+    let width3 = new HuTime.Image(styleSize,
+        new HuTime.XYPosition(270, 310),
+        "../testImage.png", 40, 150);
+    let width4 = new HuTime.Image(styleSize,
+        new HuTime.XYPosition(350, 310),
+        "../testImage.png", 40, undefined);
+    let width5 = new HuTime.Image(styleSize,
+        new HuTime.XYPosition(420, 310),
+        "../testImage.png", undefined, 40);
+    let width6 = new HuTime.Image(styleSize,
+        new HuTime.XYPosition(550, 310),
+        "../testImage.png");
+    layer.appendObject(width1);
+    layer.appendObject(width2);
+    layer.appendObject(width3);
+    layer.appendObject(width4);
+    layer.appendObject(width5);
+    layer.appendObject(width6);
+
+    ht.redraw(0, 200);
+  </script>
+</body>
+</html>

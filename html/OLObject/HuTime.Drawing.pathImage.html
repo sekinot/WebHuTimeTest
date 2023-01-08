@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.Drawing.pathImage</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../index.html">HuTime</a>.<a href="HuTime.Drawing.html">Drawing</a>.pathImage</h1>
+    </div>
+    <div id="testArea">
+      <div id="ht"></div>
+    </div>
+    <div id="description">
+      <h3>画像の領域（URLを指定）</h3>
+      <p>style: default, undefined (defaultと同じ), typical values</p>
+      <p style="color: red;">layer: layer（可動レイヤ）, fixed layer（固定レイヤ）－ 稼働レイヤのみ動く</p>
+      <p style="color: blue;">position: XYPosition, TVPosition － TVPositionのみ移動先の位置を保持</p>
+      <p style="color: green;">rotate: undefined, 0, 30, -30, 90, 180, 360</p>
+      <p style="color: darkorange;">canvas: undefined, layerと同じcanvas, layerと異なる固定レイヤのcanvas</p>
+      <p style="color: darkcyan;">src: "test"（不正なファイル名）, undefined (40 x undefined, true), null (undefined x 40, true),<br />
+        "" (undefined x undefined, true), "" (undefined x undefined, false), "" (40 x 40, true)<br />
+        src (width, height, drawTempBackground)</p>
+      <p style="color: darkred;">width: 20x20, 150x40, 40x150, 40 x undefined, undefined x 40, undefined x undefined</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>レイヤを移動させたときに、同じ領域が下に描画されている。<br />
+          （固定レイヤへの描画された図形や別のcanvasに描画された領域を除く）</li>
+        <li>TVPositionの図形では、レイヤを移動させたときに、領域が追従する。</li>
+        <li>Styleのdefaultとundefinedはalphaを設定していないので、領域は見えない。</li>
+        <li>drawTempBackground=falseでsrcが不正な場合は領域・画像が表示されない。</li>
+        <li>drawTempBackground=falseでサイズのいずれかがundefinedの場合は領域が表示されない。</li>
+      </ul>
+    </div>
+    <div id="footer">
+      created on 2021-01-17, updated on 2021-01-17
+    </div>
+  </div>
+  <script type="text/javascript">
+    let ht = new HuTime();
+    let panels = new HuTime.PanelCollection(400);
+    ht.appendPanelCollection(panels, document.getElementById("ht"));
+    let panel = new HuTime.TilePanel(400);
+    panels.appendPanel(panel);
+    let layer = new HuTime.Layer();
+    layer.zIndex = 40;
+    panel.appendLayer(layer);
+    let fixedLayer = new HuTime.Layer();
+    fixedLayer.fixedLayer = true;
+    fixedLayer.zIndex = 20;
+    panel.appendLayer(fixedLayer);
+    let pathLayer = new HuTime.Layer();
+    pathLayer.fixedLayer = true;
+    pathLayer.zIndex = 10;
+    panel.appendLayer(pathLayer);
+
+    let style = new HuTime.FigureStyle("cyan", "cyan", 5);
+    style.alpha = 0.2;
+
+    let pathStyle = new HuTime.FigureStyle("rgba(255, 0, 0, 0.2)");
+    function drawPath(ctx) {
+        if (ctx)
+          pathStyle.applyFillStyle.call(pathStyle, ctx);
+    }
+    layer.processAfterRedraw = function processAfterRedraw(lyr) {
+        // style
+        drawPath(HuTime.Drawing.pathImage(
+            lyr, new HuTime.XYPosition(40, 40),
+            "../testImage.png", 40, 40));
+        HuTime.Drawing.drawImage(new HuTime.FigureStyle(),
+            lyr, new HuTime.XYPosition(40, 40),
+            "../testImage.png", 40, 40);
+        drawPath(HuTime.Drawing.pathImage(
+            lyr, new HuTime.XYPosition(100, 40),
+            "../testImage.png", 40, 40));
+        HuTime.Drawing.drawImage(null,
+            lyr, new HuTime.XYPosition(100, 40),
+            "../testImage.png", 40, 40);
+        drawPath(HuTime.Drawing.pathImage(
+            lyr, new HuTime.XYPosition(160, 40),
+            "../testImage.png", 40, 40));
+        let styleTest = new HuTime.FigureStyle("pink", "green", 5);
+        styleTest.alpha = 0.1;
+        HuTime.Drawing.drawImage(styleTest,
+            lyr, new HuTime.XYPosition(160, 40),
+            "../testImage.png", 40, 40);
+
+        // layer
+        let styleLayer = new HuTime.FigureStyle("cyan", "red", 5);
+        styleLayer.alpha = 0.1;
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(270, 40),
+            "../testImage.png", 40, 40));
+        HuTime.Drawing.drawImage(styleLayer, layer,
+            new HuTime.XYPosition(270, 40),
+            "../testImage.png", 40, 40);
+        drawPath(HuTime.Drawing.pathImage(fixedLayer,
+            new HuTime.XYPosition(370, 40),
+            "../testImage.png", 40, 40));
+        HuTime.Drawing.drawImage(styleLayer, fixedLayer,
+            new HuTime.XYPosition(370, 40),
+            "../testImage.png", 40, 40);
+
+        // position
+        let stylePosition = new HuTime.FigureStyle("cyan", "blue", 5);
+        stylePosition.alpha = 0.1;
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(40, 100),
+            "../testImage.png", 40, 40));
+        HuTime.Drawing.drawImage(stylePosition, layer,
+            new HuTime.XYPosition(40, 100),
+            "../testImage.png", 40, 40);
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.TVPosition(50, 25),
+            "../testImage.png", 40, 40));
+        HuTime.Drawing.drawImage(stylePosition, layer,
+            new HuTime.TVPosition(50, 25),
+            "../testImage.png", 40, 40);
+
+        // rotate
+        let styleRotate = new HuTime.FigureStyle("cyan", "green", 5);
+        styleRotate.alpha = 0.1;
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(40, 160),
+            "../testImage.png", 40, 40));
+        HuTime.Drawing.drawImage(styleRotate, layer,
+            new HuTime.XYPosition(40, 160),
+            "../testImage.png", 40, 40);
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(100, 160),
+            "../testImage.png", 40, 40, 0));
+        HuTime.Drawing.drawImage(styleRotate, layer,
+            new HuTime.XYPosition(100, 160),
+            "../testImage.png", 40, 40, 0);
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(160, 160),
+            "../testImage.png", 40, 40, 30));
+        HuTime.Drawing.drawImage(styleRotate, layer,
+            new HuTime.XYPosition(160, 160),
+            "../testImage.png", 40, 40, 30);
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(230, 160),
+            "../testImage.png", 40, 40, -30));
+        HuTime.Drawing.drawImage(styleRotate, layer,
+            new HuTime.XYPosition(230, 160),
+            "../testImage.png", 40, 40, -30);
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(290, 160),
+            "../testImage.png", 40, 40, 90));
+        HuTime.Drawing.drawImage(styleRotate, layer,
+            new HuTime.XYPosition(290, 160),
+            "../testImage.png", 40, 40, 90);
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(350, 160),
+            "../testImage.png", 40, 40, 180));
+        HuTime.Drawing.drawImage(styleRotate, layer,
+            new HuTime.XYPosition(350, 160),
+            "../testImage.png", 40, 40, 180);
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(410, 160),
+            "../testImage.png", 40, 40, 360));
+        HuTime.Drawing.drawImage(styleRotate, layer,
+            new HuTime.XYPosition(410, 160),
+            "../testImage.png", 40, 40, 360);
+
+        // canvas
+        let styleCanvas = new HuTime.FigureStyle("cyan", "darkorange", 5);
+        styleCanvas.alpha = 0.1;
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(40, 220),
+            "../testImage.png", 40, 40, 0));
+        HuTime.Drawing.drawImage(styleCanvas, layer,
+            new HuTime.XYPosition(40, 220),
+            "../testImage.png", 40, 40, 0);
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(100, 220),
+            "../testImage.png", 40, 40, 0, layer.canvas));
+        HuTime.Drawing.drawImage(styleCanvas, layer,
+            new HuTime.XYPosition(100, 220),
+            "../testImage.png", 40, 40, 0, layer.canvas);
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(160, 220),
+            "../testImage.png", 40, 40, 0, fixedLayer.canvas));
+        HuTime.Drawing.drawImage(styleCanvas, layer,
+            new HuTime.XYPosition(160, 220),
+            "../testImage.png", 40, 40, 0, fixedLayer.canvas);
+
+        // src
+        let styleSrc = new HuTime.FigureStyle("cyan", "darkcyan", 5);
+        styleSrc.alpha = 0.1;
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(340, 220),
+            "test", null, null, 0, null, true));
+        HuTime.Drawing.drawImage(styleSrc, layer,
+            new HuTime.XYPosition(340, 220),
+            "test", null, null, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(400, 220),
+            undefined, 40, null, 0, null, true));
+        HuTime.Drawing.drawImage(styleSrc, layer,
+            new HuTime.XYPosition(400, 220),
+            undefined, 40, null, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(460, 220),
+            null, null, 40, 0, null, true));
+        HuTime.Drawing.drawImage(styleSrc, layer,
+            new HuTime.XYPosition(460, 220),
+            null, null, 40, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(520, 220),
+            "", null, null, 0, null, true));
+        HuTime.Drawing.drawImage(styleSrc, layer,
+            new HuTime.XYPosition(520, 220),
+            "", null, null, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(580, 220),
+            "", null, null, 0, null, false));
+        HuTime.Drawing.drawImage(styleSrc, layer,
+            new HuTime.XYPosition(580, 220),
+            "", null, null, 0, null, false);
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(640, 220),
+            "", 40, 40, 0, null, true));
+        HuTime.Drawing.drawImage(styleSrc, layer,
+            new HuTime.XYPosition(640, 220),
+            "", 40, 40, 0, null, true);
+
+        // size
+        let styleSize = new HuTime.FigureStyle("cyan", "darkred", 5);
+        styleSize.alpha = 0.1;
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(30, 310),
+            "../testImage.png", 20, 20));
+        HuTime.Drawing.drawImage(styleSize, layer,
+            new HuTime.XYPosition(30, 310),
+            "../testImage.png", 20, 20);
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(150, 310),
+            "../testImage.png", 150, 40));
+        HuTime.Drawing.drawImage(styleSize, layer,
+            new HuTime.XYPosition(150, 310),
+            "../testImage.png", 150, 40);
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(270, 310),
+            "../testImage.png", 40, 150));
+        HuTime.Drawing.drawImage(styleSize, layer,
+            new HuTime.XYPosition(270, 310),
+            "../testImage.png", 40, 150);
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(350, 310),
+            "../testImage.png", 40, undefined));
+        HuTime.Drawing.drawImage(styleSize, layer,
+            new HuTime.XYPosition(350, 310),
+            "../testImage.png", 40, undefined);
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(420, 310),
+            "../testImage.png", undefined, 40));
+        HuTime.Drawing.drawImage(styleSize, layer,
+            new HuTime.XYPosition(420, 310),
+            "../testImage.png", undefined, 40);
+        drawPath(HuTime.Drawing.pathImage(layer,
+            new HuTime.XYPosition(550, 310),
+            "../testImage.png"));
+        HuTime.Drawing.drawImage(styleSize, layer,
+            new HuTime.XYPosition(550, 310),
+            "../testImage.png");
+    }
+    ht.redraw(0, 200);
+  </script>
+</body>
+</html>

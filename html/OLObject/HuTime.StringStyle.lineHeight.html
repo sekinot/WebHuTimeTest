@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.StringStyle.lineHeight</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../index.html">HuTime</a>.<a href="HuTime.StringStyle.html">StringStyle</a>.lineHeight</h1>
+    </div>
+    <div id="testArea">
+      <canvas id="canvas" height="400" width="700"></canvas>
+    </div>
+    <div id="description">
+      <h3>行の高さ</h3>
+      <p>（fontSize = 20px）undefined, 1, 1.5, 2, -1</p>
+      <p>（fontSize = 20px）20px, 30px, 40px, -20px</p>
+      <p>（fontSize = 12px）undefined, 1, 1.5, 2, -1</p>
+      <p>（fontSize = 12px）12px, 18px, 24px, -12px</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>指定した高さで描画される。</li>
+        <li>undefinedは1と同じ。</li>
+        <li>倍率指定は、文字の大きさにより改行幅が調整される。</li>
+        <li>倍率指定は、文字の大きさに倍率をかけたpx指定と一致する。</li>
+        <li>マイナスの行の高さ指定は、上に改行される（赤い下線が1行目）。</li>
+      </ul>
+    </div>
+    <div id="footer">
+      created on 2020-12-30, updated on 2021-01-03
+    </div>
+  </div>
+  <script type="text/javascript">
+    function apply (lineHeight, fontSize, x, y) {
+      let style = new HuTime.StringStyle();
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext("2d");
+      style.fontSize = fontSize;
+      style.lineHeight = lineHeight;
+      ctx.translate(x, y);
+      style.defaultApplyStyle(ctx, "Hello World\nHello World");
+      ctx.translate(-x, -y);
+    }
+
+    let canvas = document.getElementById("canvas");
+    let ctx = canvas.getContext("2d");
+    ctx.beginPath();
+    ctx.moveTo(0, 50);
+    ctx.lineTo(700, 50);
+    ctx.moveTo(0, 170);
+    ctx.lineTo(700, 170);
+    ctx.moveTo(0, 270);
+    ctx.lineTo(700, 270);
+    ctx.moveTo(0, 350);
+    ctx.lineTo(700, 350);
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    apply(undefined, 20, 10, 50);
+    apply(1, 20, 140, 50);
+    apply(1.5, 20, 270, 50);
+    apply(2, 20, 400, 50);
+    apply(-1, 20, 530, 50);
+    apply("20px", 20, 140, 170);
+    apply("30px", 20, 270, 170);
+    apply("40px", 20, 400, 170);
+    apply("-20px", 20, 530, 170);
+    apply(undefined, 12, 10, 270);
+    apply(1, 12, 140, 270);
+    apply(1.5, 12, 270, 270);
+    apply(2, 12, 400, 270);
+    apply(-1, 12, 530, 270);
+    apply("12px", 12, 140, 350);
+    apply("18px", 12, 270, 350);
+    apply("24px", 12, 400, 350);
+    apply("-12px", 12, 530, 350);
+  </script>
+</body>
+</html>

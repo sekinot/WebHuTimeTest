@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.StringStyle.fontStyle</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../index.html">HuTime</a>.<a href="HuTime.StringStyle.html">StringStyle</a>.fontStyle</h1>
+    </div>
+    <div id="testArea">
+      <canvas id="canvas" height="400" width="700"></canvas>
+    </div>
+    <div id="description">
+      <h3>文字のスタイル</h3>
+      <p>undefined</p>
+      <p>normal</p>
+      <p>italic</p>
+      <p>oblique</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>指定したスタイルで描画される。</li>
+        <li>undefinedはnormalと同じ。</li>
+        <li>obliqueはitalicと実質同じになる。</li>
+      </ul>
+    </div>
+    <div id="footer">
+      created on 2020-12-30, updated on 2021-01-03
+    </div>
+  </div>
+  <script type="text/javascript">
+    function apply (fontStyle, x, y) {
+      let style = new HuTime.StringStyle();
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext("2d");
+      style.fontSize = 40;
+      style.fontStyle = fontStyle;
+      ctx.translate(x, y);
+      style.defaultApplyStyle(ctx, "gAイ永1");
+      ctx.translate(-x, -y);
+    }
+    apply(undefined, 10, 60);
+    apply("normal", 10, 160);
+    apply("italic", 10, 260);
+    apply("oblique", 10, 360);
+  </script>
+</body>
+</html>

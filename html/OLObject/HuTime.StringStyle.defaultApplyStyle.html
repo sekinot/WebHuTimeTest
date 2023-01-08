@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.StringStyle.defaultApplyStyle</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../HuTime.html">HuTime</a>.<a href="HuTime.StringStyle.html">StringStyle</a>.defaultApplyStyle</h1>
+    </div>
+    <div id="testArea">
+      <canvas id="canvas" height="400" width="700"></canvas>
+    </div>
+    <div id="description">
+      <h3>既定の書式適用処理（テキストの改行コードの違いを吸収）</h3>
+      <p>\n, \r, \r\n</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>改行コードにかかわらず、同様に描画される。</li>
+      </ul>
+    </div>
+    <div id="footer">
+      created on 2020-12-30, updated on 2021-01-03
+    </div>
+  </div>
+  <script type="text/javascript">
+    function apply (text, x, y) {
+      let style = new HuTime.StringStyle();
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext("2d");
+      style.fontSize = 20;
+      ctx.translate(x, y);
+      style.defaultApplyStyle(ctx, text);
+      ctx.translate(-x, -y);
+    }
+    apply("Hello World\nHello World", 10, 50);
+    apply("Hello World\rHello World", 160, 50);
+    apply("Hello World\r\nHello World", 310, 50);
+  </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.FigureStyle.alpha</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../index.html">HuTime</a>.<a href="HuTime.FigureStyle.html">FigureStyle</a>.alpha</h1>
+    </div>
+    <div id="testArea">
+      <canvas id="canvas" height="400" width="700"></canvas>
+    </div>
+    <div id="description">
+      <h3>透過率</h3>
+      <p>0, 0.1</p>
+      <p>0.3, 1.0</p>
+      <p>undefined</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>数字が大きくなるほど不透明になる。</li>
+        <li>undefinedは1.0と同じ。</li>
+      </ul>
+    </div>
+    <div id="footer">
+      created on 2020-12-30, updated on 2021-01-03
+    </div>
+  </div>
+  <script type="text/javascript">
+    function apply (alpha, x, y) {
+      let style = new HuTime.FigureStyle();
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext("2d");
+      style.fillColor = "red";
+      style.alpha = alpha;
+      ctx.beginPath();
+      ctx.arc(x, y, 30, 0, 2 * Math.PI);
+      ctx.translate(x, y);
+      style.defaultApplyStyle(ctx);
+      ctx.translate(-x, -y);
+    }
+    apply(0, 110, 60);
+    apply(0.1, 310, 60);
+    apply(0.3, 110, 160);
+    apply(1.0, 310, 160);
+    apply(undefined, 110, 260);
+  </script>
+</body>
+</html>

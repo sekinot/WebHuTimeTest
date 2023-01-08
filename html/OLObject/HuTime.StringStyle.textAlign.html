@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.StringStyle.textAlign</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../index.html">HuTime</a>.<a href="HuTime.StringStyle.html">StringStyle</a>.textAlign</h1>
+    </div>
+    <div id="testArea">
+      <canvas id="canvas" height="400" width="700"></canvas>
+    </div>
+    <div id="description">
+      <h3>テキストの横方向の整列位置</h3>
+      <p>undefined</p>
+      <p>start</p>
+      <p>end</p>
+      <p>left</p>
+      <p>right</p>
+      <p>center</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>基準位置（赤い縦線）に対して指定した位置で描画される。</li>
+        <li>undefinedはstartと同じ位置。</li>
+      </ul>
+    </div>
+    <div id="footer">
+      created on 2020-12-30, updated on 2021-01-03
+    </div>
+  </div>
+  <script type="text/javascript">
+    function apply (textAlign, x, y) {
+      let style = new HuTime.StringStyle();
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext("2d");
+      style.fontSize = 20;
+      style.textAlign = textAlign;
+      ctx.translate(x, y);
+      style.defaultApplyStyle(ctx, "Hello All\nof the World");
+      ctx.translate(-x, -y);
+    }
+
+    let canvas = document.getElementById("canvas");
+    let ctx = canvas.getContext("2d");
+    ctx.beginPath();
+    ctx.moveTo(300, 0);
+    ctx.lineTo(300, 400);
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    apply(undefined, 300, 50);
+    apply("start", 300, 100);
+    apply("end", 300, 150);
+    apply("left", 300, 200);
+    apply("right", 300, 250);
+    apply("center", 300, 300);
+  </script>
+</body>
+</html>

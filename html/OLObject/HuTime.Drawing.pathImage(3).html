@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.Drawing.pathImage(3)</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../index.html">HuTime</a>.<a href="HuTime.Drawing.html">Drawing</a>.pathImage(3)</h1>
+    </div>
+    <div id="testArea">
+      <div id="ht"></div>
+    </div>
+    <div id="description">
+      <h3>画像の領域（src, drawAlternate, width, height）</h3>
+      <p>Image(unloaded): (drawAlternate=false) 50x50, Nullx50, 50xNull, NullxNull,
+        (drawAlternate=true) 50x50, Nullx50, 50xNull, NullxNull</p>
+      <p>Image(loaded): (drawAlternate=false) 50x50, Nullx50, 50xNull, NullxNull,
+        (drawAlternate=true) 50x50, Nullx50, 50xNull, NullxNull</p>
+      <p>URL(valid): (drawAlternate=false) 50x50, Nullx50, 50xNull, NullxNull,
+        (drawAlternate=true) 50x50, Nullx50, 50xNull, NullxNull</p>
+      <p>URL(invalid): (drawAlternate=false) 50x50, Nullx50, 50xNull, NullxNull,
+        (drawAlternate=true) 50x50, Nullx50, 50xNull, NullxNull</p>
+      <p>URL(empty): (drawAlternate=false) 50x50, Nullx50, 50xNull, NullxNull,
+        (drawAlternate=true) 50x50, Nullx50, 50xNull, NullxNull</p>
+      <p>null: (drawAlternate=false) 50x50, Nullx50, 50xNull, NullxNull,
+        (drawAlternate=true) 50x50, Nullx50, 50xNull, NullxNull</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>URL(valid)以外は、画像が表示される条件の下に、同じ領域が表示される。</li>
+        <li>URL(valid)は、URL(valid)と同じ領域が表示される。</li>
+        <li>URL(valid)、URL(invalid)は、Image(loaded)の再描画のタイミング次第で、濃さに違いが出る。</li>
+      </ul>
+    </div>
+    <div id="footer">
+      created on 2021-01-28, updated on 2021-01-28
+    </div>
+  </div>
+  <script type="text/javascript">
+    let ht = new HuTime();
+    let panels = new HuTime.PanelCollection(400);
+    ht.appendPanelCollection(panels, document.getElementById("ht"));
+    let panel = new HuTime.TilePanel(400);
+    panels.appendPanel(panel);
+    let layer = new HuTime.Layer();
+    layer.zIndex = 40;
+    panel.appendLayer(layer);
+    let fixedLayer = new HuTime.Layer();
+    fixedLayer.fixedLayer = true;
+    fixedLayer.zIndex = 20;
+    panel.appendLayer(fixedLayer);
+    let pathLayer = new HuTime.Layer();
+    pathLayer.fixedLayer = true;
+    pathLayer.zIndex = 10;
+    panel.appendLayer(pathLayer);
+
+    let img = new Image();
+    img.onload = () => {
+        ht.redraw();
+    };
+    img.src = "../testImage.png";
+    let imgUnloaded = new Image();
+
+    let style = new HuTime.FigureStyle("cyan", "cyan", 5);
+    style.alpha = 0.1;
+    let pathStyle = new HuTime.FigureStyle("rgba(255, 0, 0, 0.2)");
+    function drawPath(ctx) {
+        if (ctx)
+          pathStyle.applyFillStyle.call(pathStyle, ctx);
+    }
+    layer.processAfterRedraw = function processAfterRedraw(layer) {
+        // Image(unloaded)
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(40, 30),
+            imgUnloaded, 50, 50, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(40, 30),
+            imgUnloaded, 50, 50, 0, null, false);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(120, 30),
+            imgUnloaded, null, 50, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(120, 30),
+            imgUnloaded, null, 50, 0, null, false);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(200, 30),
+            imgUnloaded, 50, null, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(200, 30),
+            imgUnloaded, 50, null, 0, null, false);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(280, 30),
+            imgUnloaded, null, null, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(280, 30),
+            imgUnloaded, null, null, 0, null, false);
+
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(360, 30),
+            imgUnloaded, 50, 50, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(360, 30),
+            imgUnloaded, 50, 50, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(440, 30),
+            imgUnloaded, null, 50, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(440, 30),
+            imgUnloaded, null, 50, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(520, 30),
+            imgUnloaded, 50, null, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(520, 30),
+            imgUnloaded, 50, null, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(600, 30),
+            imgUnloaded, null, null, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(600, 30),
+            imgUnloaded, null, null, 0, null, true);
+
+        // Image(unloaded)
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(40, 90),
+            img, 50, 50, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(40, 90),
+            img, 50, 50, 0, null, false);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(120, 90),
+            img, null, 50, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(120, 90),
+            img, null, 50, 0, null, false);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(200, 90),
+            img, 50, null, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(200, 90),
+            img, 50, null, 0, null, false);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(280, 90),
+            img, null, null, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(280, 90),
+            img, null, null, 0, null, false);
+
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(360, 90),
+            img, 50, 50, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(360, 90),
+            img, 50, 50, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(440, 90),
+            img, null, 50, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(440, 90),
+            img, null, 50, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(520, 90),
+            img, 50, null, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(520, 90),
+            img, 50, null, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(600, 90),
+            img, null, null, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(600, 90),
+            img, null, null, 0, null, true);
+
+        // URL(valid)
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(40, 170),
+            "../testImage.png", 50, 50, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(40, 170),
+            "../testImage.png", 50, 50, 0, null, false);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(120, 170),
+            "../testImage.png", null, 50, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(120, 170),
+            "../testImage.png", null, 50, 0, null, false);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(200, 170),
+            "../testImage.png", 50, null, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(200, 170),
+            "../testImage.png", 50, null, 0, null, false);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(280, 170),
+            "../testImage.png", null, null, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(280, 170),
+            "../testImage.png", null, null, 0, null, false);
+
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(360, 170),
+            "../testImage.png", 50, 50, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(360, 170),
+            "../testImage.png", 50, 50, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(440, 170),
+            "../testImage.png", null, 50, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(440, 170),
+            "../testImage.png", null, 50, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(520, 170),
+            "../testImage.png", 50, null, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(520, 170),
+            "../testImage.png", 50, null, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(600, 170),
+            "../testImage.png", null, null, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(600, 170),
+            "../testImage.png", null, null, 0, null, true);
+
+        // URL(valid)
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(40, 230),
+            "invalidURL", 50, 50, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(40, 230),
+            "invalidURL", 50, 50, 0, null, false);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(120, 230),
+            "invalidURL", null, 50, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(120, 230),
+            "invalidURL", null, 50, 0, null, false);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(200, 230),
+            "invalidURL", 50, null, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(200, 230),
+            "invalidURL", 50, null, 0, null, false);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(280, 230),
+            "invalidURL", null, null, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(280, 230),
+            "invalidURL", null, null, 0, null, false);
+
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(360, 230),
+            "invalidURL", 50, 50, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(360, 230),
+            "invalidURL", 50, 50, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(440, 230),
+            "invalidURL", null, 50, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(440, 230),
+            "invalidURL", null, 50, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(520, 230),
+            "invalidURL", 50, null, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(520, 230),
+            "invalidURL", 50, null, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(600, 230),
+            "invalidURL", null, null, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(600, 230),
+            "invalidURL", null, null, 0, null, true);
+
+        // URL(empty)
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(40, 300),
+            "", 50, 50, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(40, 300),
+            "", 50, 50, 0, null, false);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(120, 300),
+            "", null, 50, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(120, 300),
+            "", null, 50, 0, null, false);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(200, 300),
+            "", 50, null, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(200, 300),
+            "", 50, null, 0, null, false);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(280, 300),
+            "", null, null, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(280, 300),
+            "", null, null, 0, null, false);
+
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(360, 300),
+            "", 50, 50, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(360, 300),
+            "", 50, 50, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(440, 300),
+            "", null, 50, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(440, 300),
+            "", null, 50, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(520, 300),
+            "", 50, null, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(520, 300),
+            "", 50, null, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(600, 300),
+            "", null, null, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(600, 300),
+            "", null, null, 0, null, true);
+
+        // null
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(40, 360),
+            null, 50, 50, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(40, 360),
+            null, 50, 50, 0, null, false);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(120, 360),
+            null, null, 50, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(120, 360),
+            null, null, 50, 0, null, false);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(200, 360),
+            null, 50, null, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(200, 360),
+            null, 50, null, 0, null, false);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(280, 360),
+            null, null, null, 0, null, false));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(280, 360),
+            null, null, null, 0, null, false);
+
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(360, 360),
+            null, 50, 50, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(360, 360),
+            null, 50, 50, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(440, 360),
+            null, null, 50, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(440, 360),
+            null, null, 50, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(520, 360),
+            null, 50, null, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(520, 360),
+            null, 50, null, 0, null, true);
+        drawPath(HuTime.Drawing.pathImage(
+            layer, new HuTime.XYPosition(600, 360),
+            null, null, null, 0, null, true));
+        HuTime.Drawing.drawImage(style,
+            layer, new HuTime.XYPosition(600, 360),
+            null, null, null, 0, null, true);
+    }
+    ht.redraw(0, 200);
+  </script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.Drawing.drawImage(2)</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../index.html">HuTime</a>.<a href="HuTime.Drawing.html">Drawing</a>.drawImage(2)</h1>
+    </div>
+    <div id="testArea">
+      <div id="ht"></div>
+    </div>
+    <div id="description">
+      <h3>画像の描画（Imageオブジェクトを指定）</h3>
+      <p>style: default, undefined (defaultと同じ), typical values</p>
+      <p style="color: red;">layer: layer（可動レイヤ）, fixed layer（固定レイヤ）－ 稼働レイヤのみ動く</p>
+      <p style="color: blue;">position: XYPosition, TVPosition － TVPositionのみ移動先の位置を保持</p>
+      <p style="color: green;">rotate: undefined, 0, 30, -30, 90, 180, 360</p>
+      <p style="color: darkorange;">canvas: undefined, layerと同じcanvas, layerと異なる固定レイヤのcanvas</p>
+      <p style="color: darkred;">width: 20x20, 150x40, 40x150, 40 x undefined, undefined x 40, undefined x undefined</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>指定通りの画像と枠が描画される。</li>
+        <li>レイヤを移動させたときに、固定レイヤの図形が動かない。</li>
+        <li>レイヤを移動させたときに、TVPositionの図形が追従する。</li>
+      </ul>
+    </div>
+    <div id="footer">
+      created on 2021-01-12, updated on 2021-01-15
+    </div>
+  </div>
+  <script type="text/javascript">
+    let ht = new HuTime();
+    let panels = new HuTime.PanelCollection(400);
+    ht.appendPanelCollection(panels, document.getElementById("ht"));
+    let panel = new HuTime.TilePanel(400);
+    panels.appendPanel(panel);
+    let layer = new HuTime.Layer();
+    layer.zIndex = 40;
+    panel.appendLayer(layer);
+    let fixedLayer = new HuTime.Layer();
+    fixedLayer.fixedLayer = true;
+    fixedLayer.zIndex = 20;
+    panel.appendLayer(fixedLayer);
+
+    let img = new Image();
+    img.onload = () => {
+        ht.redraw();
+    };
+    img.src = "../testImage.png";
+
+
+    let style = new HuTime.FigureStyle("cyan", "cyan", 5);
+    layer.processAfterRedraw = function processAfterRedraw(lyr) {
+        // style
+        HuTime.Drawing.drawImage(new HuTime.FigureStyle(),
+            lyr, new HuTime.XYPosition(40, 40),
+            img, 40, 40);
+        HuTime.Drawing.drawImage(null,
+            lyr, new HuTime.XYPosition(100, 40),
+            img, 40, 40);
+        let styleTest = new HuTime.FigureStyle("pink", "green", 5);
+        HuTime.Drawing.drawImage(styleTest,
+            lyr, new HuTime.XYPosition(160, 40),
+            img, 40, 40);
+
+        // layer
+        let styleLayer = new HuTime.FigureStyle("cyan", "red", 5);
+        HuTime.Drawing.drawImage(styleLayer, layer,
+            new HuTime.XYPosition(270, 40),
+            img, 40, 40);
+        HuTime.Drawing.drawImage(styleLayer, fixedLayer,
+            new HuTime.XYPosition(370, 40),
+            img, 40, 40);
+
+
+        // position
+        let stylePosition = new HuTime.FigureStyle("cyan", "blue", 5);
+        HuTime.Drawing.drawImage(stylePosition, layer,
+            new HuTime.XYPosition(40, 100),
+            img, 40, 40);
+        HuTime.Drawing.drawImage(stylePosition, layer,
+            new HuTime.TVPosition(50, 25),
+            img, 40, 40);
+
+        // rotate
+        let styleRotate = new HuTime.FigureStyle("cyan", "green", 5);
+        HuTime.Drawing.drawImage(styleRotate, layer,
+            new HuTime.XYPosition(40, 160),
+            img, 40, 40);
+        HuTime.Drawing.drawImage(styleRotate, layer,
+            new HuTime.XYPosition(100, 160),
+            img, 40, 40, 0);
+        HuTime.Drawing.drawImage(styleRotate, layer,
+            new HuTime.XYPosition(160, 160),
+            img, 40, 40, 30);
+        HuTime.Drawing.drawImage(styleRotate, layer,
+            new HuTime.XYPosition(230, 160),
+            img, 40, 40, -30);
+        HuTime.Drawing.drawImage(styleRotate, layer,
+            new HuTime.XYPosition(290, 160),
+            img, 40, 40, 90);
+        HuTime.Drawing.drawImage(styleRotate, layer,
+            new HuTime.XYPosition(350, 160),
+            img, 40, 40, 180);
+        HuTime.Drawing.drawImage(styleRotate, layer,
+            new HuTime.XYPosition(410, 160),
+            img, 40, 40, 360);
+
+        // canvas
+        let styleCanvas = new HuTime.FigureStyle("cyan", "darkorange", 5);
+        HuTime.Drawing.drawImage(styleCanvas, layer,
+            new HuTime.XYPosition(40, 220),
+            img, 40, 40, 0);
+        HuTime.Drawing.drawImage(styleCanvas, layer,
+            new HuTime.XYPosition(100, 220),
+            img, 40, 40, 0, layer.canvas);
+        HuTime.Drawing.drawImage(styleCanvas, layer,
+            new HuTime.XYPosition(160, 220),
+            img, 40, 40, 0, fixedLayer.canvas);
+
+        // size
+        let styleSize = new HuTime.FigureStyle("cyan", "darkred", 5);
+        HuTime.Drawing.drawImage(styleSize, layer,
+            new HuTime.XYPosition(30, 310),
+            img, 20, 20);
+        HuTime.Drawing.drawImage(styleSize, layer,
+            new HuTime.XYPosition(150, 310),
+            img, 150, 40);
+        HuTime.Drawing.drawImage(styleSize, layer,
+            new HuTime.XYPosition(270, 310),
+            img, 40, 150);
+        HuTime.Drawing.drawImage(styleSize, layer,
+            new HuTime.XYPosition(350, 310),
+            img, 40, undefined);
+        HuTime.Drawing.drawImage(styleSize, layer,
+            new HuTime.XYPosition(420, 310),
+            img, undefined, 40);
+        HuTime.Drawing.drawImage(styleSize, layer,
+            new HuTime.XYPosition(550, 310),
+            img);
+    }
+    ht.redraw(0, 200);
+  </script>
+</body>
+</html>

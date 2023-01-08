@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.StringStyle.fontVariant</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../index.html">HuTime</a>.<a href="HuTime.StringStyle.html">StringStyle</a>.fontVariant</h1>
+    </div>
+    <div id="testArea">
+      <canvas id="canvas" height="400" width="700"></canvas>
+    </div>
+    <div id="description">
+      <h3>スモールキャップ</h3>
+      <p>normal, small-caps</p>
+      <p>undefined</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>small-capsは、小文字がスモールキャップ（小型大文字）で描画される。</li>
+        <li>undefinedはnormalと同じ。</li>
+      </ul>
+    </div>
+    <div id="footer">
+      created on 2020-12-30, updated on 2021-01-03
+    </div>
+  </div>
+  <script type="text/javascript">
+    function apply (fontVariant, x, y) {
+      let style = new HuTime.StringStyle();
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext("2d");
+      style.fontSize = 40;
+      style.fontVariant = fontVariant;
+      ctx.translate(x, y);
+      style.defaultApplyStyle(ctx, "Hello World");
+      ctx.translate(-x, -y);
+    }
+    apply("normal", 10, 60);
+    apply("small-caps", 310, 60);
+    apply(undefined, 10, 160);
+  </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.FigureStyle.fillColor</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../HuTime.html">HuTime</a>.<a href="HuTime.FigureStyle.html">FigureStyle</a>.fillColor</h1>
+    </div>
+    <div id="testArea">
+      <canvas id="canvas" height="400" width="700"></canvas>
+    </div>
+    <div id="description">
+      <h3>塗りつぶし色</h3>
+      <p>red, blue</p>
+      <p>#33ffcc, #9966ff</p>
+      <p>rgba(100, 200, 50, 0.5), rgb(200, 100, 50)</p>
+      <p>undefined, black</p>
+      <p>null</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>指定した色で図形の中身が描画される。</li>
+        <li>undefinedはblackと同じ。</li>
+        <li>nullは中身が描画されない。</li>
+      </ul>
+    </div>
+    <div id="footer">
+      created on 2021-01-05, updated on 2021-01-05
+    </div>
+  </div>
+  <script type="text/javascript">
+    function apply (fillColor, x, y) {
+      let style = new HuTime.FigureStyle();
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext("2d");
+      style.fillColor = fillColor;
+      style.lineWidth = 2;
+      style.lineColor = "blue";
+      ctx.beginPath();
+      ctx.arc(x, y, 30, 0, 2 * Math.PI);
+      ctx.translate(x, y);
+      style.defaultApplyStyle(ctx);
+      ctx.translate(-x, -y);
+    }
+    apply("red", 110, 60);
+    apply("green", 310, 60);
+    apply("#33ffcc", 110, 130);
+    apply("#9966ff", 310, 130);
+    apply("rgba(100, 200, 50, 0.5)", 110, 200);
+    apply("rgb(200, 100, 50)", 310, 200);
+    apply(undefined, 110, 270);
+    apply("black", 310, 270);
+    apply(null, 110, 340);
+  </script>
+</body>
+</html>

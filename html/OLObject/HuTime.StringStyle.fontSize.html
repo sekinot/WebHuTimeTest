@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.StringStyle.fontSize</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../index.html">HuTime</a>.<a href="HuTime.StringStyle.html">StringStyle</a>.fontSize</h1>
+    </div>
+    <div id="testArea">
+      <canvas id="canvas" height="400" width="700"></canvas>
+    </div>
+    <div id="description">
+      <h3>文字の大きさ(px)</h3>
+      <p>undefined, 10, 12, 16, 20, 30, 40</p>
+      <p>60, 100</p>
+      <p>150</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>指定した大きさで描画される。</li>
+        <li>undefinedは10と同じ。</li>
+      </ul>
+    </div>
+    <div id="footer">
+      created on 2020-12-30, updated on 2021-01-03
+    </div>
+  </div>
+  <script type="text/javascript">
+    function apply (fontSize, x, y) {
+      let style = new HuTime.StringStyle();
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext("2d");
+      style.fontSize = fontSize;
+      ctx.translate(x, y);
+      style.defaultApplyStyle(ctx, "gAイ永1");
+      ctx.translate(-x, -y);
+    }
+    apply(undefined, 10, 60);
+    apply(10, 60, 60);
+    apply(12, 110, 60);
+    apply(16, 170, 60);
+    apply(20, 250, 60);
+    apply(30, 350, 60);
+    apply(40, 490, 60);
+    apply(60, 10, 180);
+    apply(100, 300, 180);
+    apply(150, 10, 350);
+  </script>
+</body>
+</html>

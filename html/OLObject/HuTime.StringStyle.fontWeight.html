@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HuTime.StringStyle.fontWeight</title>
+  <link href="../default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../debug.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="../index.html">HuTime</a>.<a href="HuTime.StringStyle.html">StringStyle</a>.fontWeight</h1>
+    </div>
+    <div id="testArea">
+      <canvas id="canvas" height="400" width="700"></canvas>
+    </div>
+    <div id="description">
+      <h3>文字の太さ</h3>
+      <p>undefined, normal, 400</p>
+      <p>bold, 700</p>
+
+      <h3>確認事項</h3>
+      <ul>
+        <li>bole, 700は太字で描画される。</li>
+        <li>undefinedはnormal, 400と同じ。</li>
+      </ul>
+    </div>
+    <div id="footer">
+      created on 2020-12-30, updated on 2021-01-03
+    </div>
+  </div>
+  <script type="text/javascript">
+    function apply (fontWeight, x, y) {
+      let style = new HuTime.StringStyle();
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext("2d");
+      style.fontSize = 40;
+      style.fontWeight = fontWeight;
+      ctx.translate(x, y);
+      style.defaultApplyStyle(ctx, "gAイ永1");
+      ctx.translate(-x, -y);
+    }
+    apply(undefined, 10, 60);
+    apply("normal", 210, 60);
+    apply(400, 410, 60);
+    apply("bold", 210, 160);
+    apply(700, 410, 160);
+  </script>
+</body>
+</html>
