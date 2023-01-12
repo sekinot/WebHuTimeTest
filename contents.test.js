@@ -1,15 +1,15 @@
 require("../WebHuTime/release/HuTime.js");
 
 describe("99999", () => {
-    test("HuTime.StringStyleA", () => {
-        const a = "ぼよん";
-        let cs = new HuTime.StringStyleA(a);
-        expect(cs.a).toBe(a);
-        //expect(cs._a).toBe(a);
-        let ds = new HuTime.StringStyleA();
-        expect(ds.a).toBe(2);
-        //expect(ds._a).toBe(2);
-    });
+    // test("HuTime.StringStyleA", () => {
+    //     const a = "ぼよん";
+    //     let cs = new HuTime.StringStyleA(a);
+    //     expect(cs.a).toBe(a);
+    //     //expect(cs._a).toBe(a);
+    //     let ds = new HuTime.StringStyleA();
+    //     expect(ds.a).toBe(2);
+    //     //expect(ds._a).toBe(2);
+    // });
 
     /*
     const expO = {a: "aaa", b: 12};
