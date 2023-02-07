@@ -1,12 +1,12 @@
 require("./debugHuTime.js");
 require("./testCommon.js");
 
-describe("aaa", () => {
-    let a = null + 1;
-    let b = 1;
-    b = undefined.a;
-    return;
-});
+// describe("aaa", () => {
+//     let a = null + 1;
+//     let b = 1;
+//     b = undefined.a;// FIXME: jest error
+//     return;
+// });
 
 
 describe("PositionArray", () => {
@@ -29,7 +29,7 @@ describe("PositionArray", () => {
             expect(HuTime.ErrorInfos.log.length).toBe(1);
             expect(HuTime.ErrorInfos.log[0].className).toBe("PositionArray");
             expect(HuTime.ErrorInfos.log[0].method).toBe("PositionArray");
-            expect(HuTime.ErrorInfos.log[0].variable).toBe("items");
+            expect(HuTime.ErrorInfos.log[0].parameter).toBe("items");
         });
         test.each (invalidValues().addNumbers())
         ("Invalid items array(%o)", (value) => {
@@ -39,7 +39,7 @@ describe("PositionArray", () => {
             expect(HuTime.ErrorInfos.log.length).toBe(1);
             expect(HuTime.ErrorInfos.log[0].className).toBe("PositionArray");
             expect(HuTime.ErrorInfos.log[0].method).toBe("PositionArray");
-            expect(HuTime.ErrorInfos.log[0].variable).toBe("items");
+            expect(HuTime.ErrorInfos.log[0].parameter).toBe("items");
         });
         test("Acceptable items(PositionBase)", () => {
             HuTime.ErrorInfos.clearLog();
@@ -65,7 +65,7 @@ describe("PositionArray", () => {
             expect(HuTime.ErrorInfos.log.length).toBe(1);
             expect(HuTime.ErrorInfos.log[0].className).toBe("PositionArray");
             expect(HuTime.ErrorInfos.log[0].method).toBe("push");
-            expect(HuTime.ErrorInfos.log[0].variable).toBe("items");
+            expect(HuTime.ErrorInfos.log[0].parameter).toBe("items");
         });
         test.each (invalidValues().addNumbers())
         ("Invalid items array(%o)", (value) => {
@@ -77,7 +77,7 @@ describe("PositionArray", () => {
             expect(HuTime.ErrorInfos.log.length).toBe(1);
             expect(HuTime.ErrorInfos.log[0].className).toBe("PositionArray");
             expect(HuTime.ErrorInfos.log[0].method).toBe("push");
-            expect(HuTime.ErrorInfos.log[0].variable).toBe("items");
+            expect(HuTime.ErrorInfos.log[0].parameter).toBe("items");
         });
         test("Acceptable items", () => {
             HuTime.ErrorInfos.clearLog();
@@ -101,7 +101,7 @@ describe("PositionArray", () => {
             expect(HuTime.ErrorInfos.log.length).toBe(1);
             expect(HuTime.ErrorInfos.log[0].className).toBe("PositionArray");
             expect(HuTime.ErrorInfos.log[0].method).toBe("unshift");
-            expect(HuTime.ErrorInfos.log[0].variable).toBe("items");
+            expect(HuTime.ErrorInfos.log[0].parameter).toBe("items");
         });
         test.each (invalidValues().addNumbers())
         ("Invalid items array(%o)", (value) => {
@@ -113,7 +113,7 @@ describe("PositionArray", () => {
             expect(HuTime.ErrorInfos.log.length).toBe(1);
             expect(HuTime.ErrorInfos.log[0].className).toBe("PositionArray");
             expect(HuTime.ErrorInfos.log[0].method).toBe("unshift");
-            expect(HuTime.ErrorInfos.log[0].variable).toBe("items");
+            expect(HuTime.ErrorInfos.log[0].parameter).toBe("items");
         });
         test("Acceptable items", () => {
             HuTime.ErrorInfos.clearLog();
@@ -137,7 +137,7 @@ describe("PositionArray", () => {
             expect(HuTime.ErrorInfos.log.length).toBe(1);
             expect(HuTime.ErrorInfos.log[0].className).toBe("PositionArray");
             expect(HuTime.ErrorInfos.log[0].method).toBe("splice");
-            expect(HuTime.ErrorInfos.log[0].variable).toBe("items");
+            expect(HuTime.ErrorInfos.log[0].parameter).toBe("items");
         });
         test.each (invalidValues().addNumbers())
         ("Invalid items (delete)(%o)", (value) => {
@@ -150,7 +150,7 @@ describe("PositionArray", () => {
             expect(HuTime.ErrorInfos.log.length).toBe(1);
             expect(HuTime.ErrorInfos.log[0].className).toBe("PositionArray");
             expect(HuTime.ErrorInfos.log[0].method).toBe("splice");
-            expect(HuTime.ErrorInfos.log[0].variable).toBe("items");
+            expect(HuTime.ErrorInfos.log[0].parameter).toBe("items");
         });
         test.each (invalidValues().addNumbers())
         ("Invalid items array(%o)", (value) => {
@@ -163,7 +163,7 @@ describe("PositionArray", () => {
             expect(HuTime.ErrorInfos.log.length).toBe(1);
             expect(HuTime.ErrorInfos.log[0].className).toBe("PositionArray");
             expect(HuTime.ErrorInfos.log[0].method).toBe("splice");
-            expect(HuTime.ErrorInfos.log[0].variable).toBe("items");
+            expect(HuTime.ErrorInfos.log[0].parameter).toBe("items");
         });
         test.each (invalidValues().except(Infinity).except(true))
         ("Invalid start(%o)", (value) => {
@@ -253,7 +253,7 @@ describe("PositionArray", () => {
             expect(HuTime.ErrorInfos.log.length).toBe(1);
             expect(HuTime.ErrorInfos.log[0].className).toBe("PositionArray");
             expect(HuTime.ErrorInfos.log[0].method).toBe("concat");
-            expect(HuTime.ErrorInfos.log[0].variable).toBe("items");
+            expect(HuTime.ErrorInfos.log[0].parameter).toBe("items");
         });
         test.each (invalidValues().addNumbers())
         ("Invalid items array(%o)", (value) => {
@@ -267,7 +267,7 @@ describe("PositionArray", () => {
             expect(HuTime.ErrorInfos.log.length).toBe(1);
             expect(HuTime.ErrorInfos.log[0].className).toBe("PositionArray");
             expect(HuTime.ErrorInfos.log[0].method).toBe("concat");
-            expect(HuTime.ErrorInfos.log[0].variable).toBe("items");
+            expect(HuTime.ErrorInfos.log[0].parameter).toBe("items");
         });
         test("Acceptable items", () => {
             HuTime.ErrorInfos.clearLog();
@@ -329,7 +329,7 @@ describe("PositionArray", () => {
             expect(HuTime.ErrorInfos.log.length).toBe(1);
             expect(HuTime.ErrorInfos.log[0].className).toBe("PositionArray");
             expect(HuTime.ErrorInfos.log[0].method).toBe("PositionArray");
-            expect(HuTime.ErrorInfos.log[0].variable).toBe("items");
+            expect(HuTime.ErrorInfos.log[0].parameter).toBe("items");
         });
         test.each (invalidValues().addNumbers())
         ("Invalid items array(%o)", (value) => {
@@ -340,7 +340,7 @@ describe("PositionArray", () => {
             expect(HuTime.ErrorInfos.log.length).toBe(1);
             expect(HuTime.ErrorInfos.log[0].className).toBe("PositionArray");
             expect(HuTime.ErrorInfos.log[0].method).toBe("PositionArray");
-            expect(HuTime.ErrorInfos.log[0].variable).toBe("items");
+            expect(HuTime.ErrorInfos.log[0].parameter).toBe("items");
         });
         test("Acceptable items", () => {
             HuTime.ErrorInfos.clearLog();
